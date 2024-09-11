@@ -15,10 +15,13 @@ export default function DetailsCheckout({ items }: { items: any[] }) {
           <div className='col-span-6 flex flex-row items-center gap-3'>
             <div className='w-16 h-16 relative'>
               <Image
-                layout='fill'
-                objectFit='cover'
                 src={item.img}
                 alt={''}
+                fill
+                sizes='100vw'
+                style={{
+                  objectFit: 'cover',
+                }}
               ></Image>
             </div>
             <div className='flex flex-col gap-1'>

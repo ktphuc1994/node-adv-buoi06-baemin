@@ -18,10 +18,13 @@ export default function ResultFood({ items }: { items: any[] }) {
           >
             <div className='group-hover:brightness-105 w-full h-[60%] relative'>
               <Image
-                layout='fill'
-                objectFit='cover'
                 src={item.img}
                 alt={''}
+                fill
+                sizes='100vw'
+                style={{
+                  objectFit: 'cover',
+                }}
               ></Image>
             </div>
             <div className='group-hover:bg-slate-50 w-full h-[40%] pr-3  border border-solid'>

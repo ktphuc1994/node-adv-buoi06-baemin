@@ -43,10 +43,13 @@ export default function DetailsCart({ Details }: { Details: any[] }) {
                   />
                   <div className='relative h-36 w-36'>
                     <Image
-                      layout='fill'
-                      objectFit='cover'
                       src={item.img}
                       alt={''}
+                      fill
+                      sizes='100vw'
+                      style={{
+                        objectFit: 'cover',
+                      }}
                     />
                   </div>
                   <div className='flex flex-col gap-3'>

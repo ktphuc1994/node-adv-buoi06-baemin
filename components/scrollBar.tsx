@@ -40,14 +40,17 @@ export default function ScrollBar({ items }: { items: any[] }) {
         >
           {items.map((item: any, index: any) => (
             <div
-              key={index}
+              key={`scrollbar-item-${index}`}
               className='relative flex-shrink-0 w-1/2 bg-blue-200 p-4 cursor-pointer '
             >
               <Image
-                layout='fill'
-                objectFit='cover'
                 src={item.url}
                 alt=''
+                fill
+                sizes='100vw'
+                style={{
+                  objectFit: 'cover',
+                }}
               ></Image>
             </div>
           ))}

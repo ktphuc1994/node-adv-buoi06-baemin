@@ -88,10 +88,13 @@ const Page: React.FC = () => {
           <div className='w-full h-[70%] rounded-md'>
             <div className='w-full h-full relative'>
               <Image
-                layout='fill'
-                objectFit='cover'
                 src={'/images/baemin-1.jpg'}
                 alt=''
+                fill
+                sizes='100vw'
+                style={{
+                  objectFit: 'cover',
+                }}
               ></Image>
             </div>
           </div>

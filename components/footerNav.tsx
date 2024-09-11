@@ -36,6 +36,10 @@ export default function FooterNav() {
               alt='appstore'
               width={150}
               height={200}
+              style={{
+                maxWidth: '100%',
+                height: 'auto',
+              }}
             />
           </span>
           <span className='mt-2'>
@@ -44,6 +48,10 @@ export default function FooterNav() {
               alt='ggplay'
               width={150}
               height={200}
+              style={{
+                maxWidth: '100%',
+                height: 'auto',
+              }}
             />
           </span>
         </div>

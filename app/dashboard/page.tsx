@@ -119,6 +119,10 @@ export default function Home() {
                     width={30}
                     height={30}
                     alt={item.description}
+                    style={{
+                      maxWidth: '100%',
+                      height: 'auto',
+                    }}
                   />
                   <span>{item.name}</span>
                 </div>

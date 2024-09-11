@@ -23,7 +23,6 @@ export default function RootLayout({
       <body className='w-full h-fit'>
         <HeaderNav />
         <AntdRegistry>{children}</AntdRegistry>
-        <FooterNav />
       </body>
     </html>
   );

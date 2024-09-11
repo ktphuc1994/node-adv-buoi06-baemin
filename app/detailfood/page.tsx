@@ -36,10 +36,13 @@ export default function Home() {
           <div className='w-[45%] h-full py-4 px-10'>
             <div className='w-full relative h-full'>
               <Image
-                layout='fill'
-                objectFit='cover'
                 src={'/food/ga1.jpg'}
                 alt='Ga'
+                fill
+                sizes='100vw'
+                style={{
+                  objectFit: 'cover',
+                }}
               ></Image>
             </div>
           </div>
@@ -164,10 +167,13 @@ export default function Home() {
                   <div className='flex flex-row '>
                     <div className='w-[15%] relative h-16'>
                       <Image
-                        layout='fill'
-                        objectFit='cover'
                         src={'/images/Ga.png'}
                         alt='s'
+                        fill
+                        sizes='100vw'
+                        style={{
+                          objectFit: 'cover',
+                        }}
                       ></Image>
                     </div>
                     <div className='w-[60%] flex flex-col gap-1 px-2'>
@@ -193,10 +199,13 @@ export default function Home() {
                   <div className='flex flex-row '>
                     <div className='w-[15%] relative h-16'>
                       <Image
-                        layout='fill'
-                        objectFit='cover'
                         src={'/images/Ga.png'}
                         alt='s'
+                        fill
+                        sizes='100vw'
+                        style={{
+                          objectFit: 'cover',
+                        }}
                       ></Image>
                     </div>
                     <div className='w-[60%] flex flex-col gap-1 px-2'>

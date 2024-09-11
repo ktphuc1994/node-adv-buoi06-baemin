@@ -59,6 +59,7 @@ export default function ScrollBar({ items }: { items: any }) {
             >
               {items.items.map((item: any, index: any) => (
                 <div
+                  key={`scroll-food-item-${index}`}
                   onClick={handleNavigate}
                   className=' group w-48 h-full cursor-pointer '
                 >
@@ -72,10 +73,13 @@ export default function ScrollBar({ items }: { items: any }) {
                       }}
                     >
                       <Image
-                        layout='fill'
-                        objectFit='cover'
                         src={item.img}
                         alt={''}
+                        fill
+                        sizes='100vw'
+                        style={{
+                          objectFit: 'cover',
+                        }}
                       ></Image>
                     </div>
                   </div>
