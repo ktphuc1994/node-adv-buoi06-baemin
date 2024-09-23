@@ -1,12 +1,13 @@
 'use client';
 
+import { Banner } from '@/types/banner';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { BhuTuka_Expanded_One } from 'next/font/google';
 import Image from 'next/image';
 import React, { useRef } from 'react';
 import { useState } from 'react';
 
-export default function ScrollBar({ items }: { items: any[] }) {
+export default function ScrollBar({ items }: { items: Banner[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const handleNext = () => {
@@ -38,14 +39,14 @@ export default function ScrollBar({ items }: { items: any[] }) {
           className='relative scroll-container flex bg-white rounded-2xl w-full  p-4 gap-2'
           style={{ height: '300px !important' }}
         >
-          {items.map((item: any, index: any) => (
+          {items.map((item) => (
             <div
-              key={`scrollbar-item-${index}`}
+              key={`scrollbar-item-${item.banner_id}`}
               className='relative flex-shrink-0 w-1/2 bg-blue-200 p-4 cursor-pointer '
             >
               <Image
-                src={item.url}
-                alt=''
+                src={item.image}
+                alt={item.name}
                 fill
                 sizes='100vw'
                 style={{

@@ -36,8 +36,8 @@ export default function HeaderNav() {
           </g>
         </svg>
       </div>
-      <div className='grow  flex flex-row items-center gap-9	 '>
-        <Select className='ml-10 w-28 	'></Select>
+      <div className='grow flex flex-row items-center gap-9	 '>
+        <Select className='ml-10 w-28'></Select>
         <Search
           className='w-1/3'
           placeholder='input search text'
