@@ -1,7 +1,19 @@
+type FoodRequest = {
+  foodName?: string;
+  menuId?: number;
+  storeId?: number;
+  page?: number;
+  pageSize?: number;
+};
+
 type Food = {
   food_id: string;
   name: string;
+  price: number;
+  description: string | null;
   image: string;
+  store_id: number;
+  tags: string[];
 };
 
 type TodayFood = Food & {
@@ -10,4 +22,4 @@ type TodayFood = Food & {
   store_id: number;
 };
 
-export { Food, TodayFood };
+export { Food, TodayFood, FoodRequest };
