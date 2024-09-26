@@ -1,4 +1,3 @@
-import { Menu } from '@/types/menu';
 import { serverFetch } from '.';
 import { APP_API_URL, PATH_FOOD } from '@/constants/paths';
 import { TodayFood } from '@/types/food';

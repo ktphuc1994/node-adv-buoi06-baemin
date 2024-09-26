@@ -1,12 +1,6 @@
-'use client';
-import HeaderNav from '@/components/headerNav';
-import ScrollBar from '@/components/scrollBar';
-import ScrollFood from '@/components/scrollFood';
 import {
   ClockCircleOutlined,
-  ClockCircleTwoTone,
   DollarOutlined,
-  DollarTwoTone,
   DoubleRightOutlined,
   LikeFilled,
   PlusOutlined,
@@ -14,21 +8,10 @@ import {
   StarFilled,
   StarOutlined,
 } from '@ant-design/icons';
-import { Input } from 'antd';
+import Input from 'antd/es/input/Input';
 import Image from 'next/image';
-import React, { useState } from 'react';
 
-export default function Home() {
-  const [isActive, setIsActive] = useState(false);
-
-  const handleMouseDown = () => {
-    setIsActive(true);
-  };
-
-  const handleMouseUp = () => {
-    setIsActive(false);
-  };
-
+export default function StoreDetail() {
   return (
     <>
       <div className='flex flex-col w-full h-auto'>
@@ -102,15 +85,16 @@ export default function Home() {
                   <span>Mở cửa</span>
                 </div>
                 <div className='flex flex-row gap-1 justify-start items-center'>
-                  <ClockCircleTwoTone twoToneColor={'#3AC5C9'} />
+                  <span className='text-[#3AC5C9]'>
+                    <ClockCircleOutlined />
+                  </span>
                   <span>06:00 - 22:59</span>
                 </div>
               </div>
               <div className='flex flex-row gap-1 justify-start items-center text-[#959595] text-[15px]'>
-                <DollarTwoTone
-                  twoToneColor={'#c0c0c0'}
-                  className='text-[16px]'
-                />
+                <span className='text-[#c0c0c0] text-[16px]'>
+                  <DollarOutlined />
+                </span>{' '}
                 <span> 99.000 - 399.000</span>
               </div>
             </div>
@@ -145,10 +129,8 @@ export default function Home() {
               <ul>
                 <li
                   className={`cursor-pointer w-fit px-1 ${
-                    isActive ? '' : 'bg-[#959595] text-white'
+                    false ? '' : 'bg-[#959595] text-white'
                   }`}
-                  onMouseDown={handleMouseDown}
-                  onMouseUp={handleMouseUp}
                 >
                   SẢN PHẨM MỚI
                 </li>

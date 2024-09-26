@@ -7,7 +7,10 @@ export default function DetailsCart({ Details }: { Details: any[] }) {
   return (
     <>
       {Details.map((items, index) => (
-        <div className='w-full flex flex-col  bg-white rounded-md '>
+        <div
+          className='w-full flex flex-col  bg-white rounded-md '
+          key={`cart-id-no-${index}`}
+        >
           <div className=' flex flex-row my-7 ml-8 items-center gap-3'>
             <input
               id='default-checkbox'

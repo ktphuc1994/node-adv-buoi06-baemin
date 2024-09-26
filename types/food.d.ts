@@ -7,6 +7,7 @@ type Food = {
 type TodayFood = Food & {
   store_name: string;
   store_address: string;
+  store_id: number;
 };
 
 export { Food, TodayFood };

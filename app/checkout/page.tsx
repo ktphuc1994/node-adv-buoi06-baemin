@@ -45,7 +45,6 @@ export default function Home() {
         <div className='w-1/2 h-full flex   items-center gap-3'></div>
       </div>
       <div className='px-16 flex flex-col gap-3 '>
-        '
         <div className='w-full h-28 flex flex-col bg-white rounded-md pl-10 pt-5'>
           <div className='flex flex-row gap-1'>
             <div className='text-xl'>
@@ -170,7 +169,7 @@ export default function Home() {
           </div>
           <div className='w-full border-t  flex flex-row justify-between items-center  pt-4  gap-4 mb-4'>
             <div className='w-[70%] ml-8'>
-              Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý tuân theo{' '}
+              Nhấn &quot;Đặt hàng&quot; đồng nghĩa với việc bạn đồng ý tuân theo{' '}
               <span className='text-blue-600 text-sm cursor-pointer'>
                 Điều khoản Baemin
               </span>
