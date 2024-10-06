@@ -1,93 +1,110 @@
-import { Button } from 'antd';
-import { Butterfly_Kids } from 'next/font/google';
-import Image from 'next/image';
-import React from 'react';
+import { Cart, SelectedItemsInfo } from '@/types/cart';
 
-export default function DetailsCart({ Details }: { Details: any[] }) {
+import CartStore from './CartStore';
+import { useMemo, useState } from 'react';
+import Modal from 'antd/es/modal/Modal';
+
+type Props = {
+  details?: Cart[];
+  isLoading?: boolean;
+  selectedItemsInfo?: SelectedItemsInfo;
+  onSelectItems: (itemInfo: SelectedItemsInfo) => void;
+};
+
+const defaultSelectedItemInfo: SelectedItemsInfo = {
+  storeId: -1,
+  storeName: '',
+  foodIds: [],
+};
+
+const DetailsCart = ({ details, isLoading, onSelectItems }: Props) => {
+  const [selectedItemInfo, setSelectedItemInfo] = useState<SelectedItemsInfo>(
+    defaultSelectedItemInfo
+  );
+  const [pendingSelectedItemInfo, setPendingSelectedItemInfo] =
+    useState<SelectedItemsInfo>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const pendingStoreName = useMemo(() => {
+    if (!pendingSelectedItemInfo || !details) return;
+    const pendingStore = details.find(
+      (detail) => detail.store_id === pendingSelectedItemInfo.storeId
+    );
+    return pendingStore?.name;
+  }, [details, pendingSelectedItemInfo]);
+
+  const handleSelectItems = ({
+    storeId,
+    storeName,
+    foodIds,
+  }: SelectedItemsInfo) => {
+    if (
+      selectedItemInfo.storeId === defaultSelectedItemInfo.storeId ||
+      selectedItemInfo.storeId === storeId
+    ) {
+      let itemInfo = { storeId, storeName, foodIds };
+      if (foodIds.length === 0) {
+        itemInfo.storeId = defaultSelectedItemInfo.storeId;
+        itemInfo.storeName = '';
+      }
+
+      setSelectedItemInfo(itemInfo);
+      onSelectItems(itemInfo);
+      return;
+    }
+
+    setIsModalOpen(true);
+    setPendingSelectedItemInfo({ storeId, storeName, foodIds });
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setPendingSelectedItemInfo(undefined);
+  };
+
+  const handleConfirmChangeStore = () => {
+    if (!pendingSelectedItemInfo) return;
+
+    setIsModalOpen(false);
+    setSelectedItemInfo(pendingSelectedItemInfo);
+    onSelectItems(pendingSelectedItemInfo);
+    setPendingSelectedItemInfo(undefined);
+  };
+
+  if (isLoading) return <div>Loading cart</div>;
+
+  if (!details || details.length === 0) return <div>No item available.</div>;
+
   return (
     <>
-      {Details.map((items, index) => (
-        <div
-          className='w-full flex flex-col  bg-white rounded-md '
-          key={`cart-id-no-${index}`}
-        >
-          <div className=' flex flex-row my-7 ml-8 items-center gap-3'>
-            <input
-              id='default-checkbox'
-              type='checkbox'
-              value=''
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded   dark:ring-offset-gray-800 '
-            />
-            <span className='text-base font-normal'> {items.name}</span>
-            <div className=' bg-beamin p-1 rounded-md'>
-              {items.quandoitac && (
-                <span className='text-sm font-normal text-white'>
-                  Quán đối tác
-                </span>
-              )}
-            </div>
-          </div>
-          <div className=' w-full border-t border-b border-solid border-gray-600 py-3'>
-            {items.items.map((item: any, index: any) => (
-              <div
-                key={index}
-                className={
-                  index === items.items.length - 1
-                    ? 'w-full grid grid-cols-12'
-                    : 'w-full grid grid-cols-12 border-b border-solid border-x-gray-300'
-                }
-              >
-                <div className='pl-8  col-span-4 flex items-center flex-row gap-3'>
-                  <input
-                    id='default-checkbox'
-                    type='checkbox'
-                    value=''
-                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded   dark:ring-offset-gray-800 '
-                  />
-                  <div className='relative h-36 w-36'>
-                    <Image
-                      src={item.img}
-                      alt={''}
-                      fill
-                      sizes='100vw'
-                      style={{
-                        objectFit: 'cover',
-                      }}
-                    />
-                  </div>
-                  <div className='flex flex-col gap-3'>
-                    <span className='text-base '>{item.namefood}</span>
-                    <span className='text-sm text-gray-600'>
-                      {item.description}
-                    </span>
-                  </div>
-                </div>
-                <div className='col-span-2 flex items-center justify-center flex-row gap-3'>
-                  ₫{item.price}
-                </div>
-                <div className='col-span-2 flex items-center justify-center flex-row gap-3'>
-                  <input
-                    type='number'
-                    id='quantity'
-                    className='w-16 text-center border border-gray-300 rounded'
-                    defaultValue={item.quantity}
-                    min='1'
-                    max='100'
-                  />
-                </div>
-                <div className='col-span-2 flex items-center justify-center flex-row gap-3'>
-                  ₫{item.totalprice}
-                </div>
-                <div className='col-span-2 flex items-center justify-center flex-row gap-3'>
-                  <span className=' hover:text-red-600 cursor-pointer'>
-                    Xóa
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
+      {details.map((storeInfo) => {
+        if (storeInfo.food.length === 0) return null;
+
+        return (
+          <CartStore
+            key={`cart-id-no-${storeInfo.store_id}`}
+            storeInfo={storeInfo}
+            selectedItemsInfo={selectedItemInfo}
+            onSelectItems={handleSelectItems}
+          />
+        );
+      })}
+      <Modal
+        title='Đổi cửa hàng'
+        open={isModalOpen}
+        onOk={handleConfirmChangeStore}
+        onCancel={handleCancel}
+      >
+        <p>
+          Chỉ có thể chọn thức ăn cùng 1 (một) cửa hàng để tiến hành thanh toán.
+        </p>
+        <p>
+          Bạn có muốn đổi sang cửa hàng{' '}
+          <span className='font-semibold'>{pendingStoreName}</span>?
+        </p>
+      </Modal>
     </>
   );
-}
+};
+
+export default DetailsCart;

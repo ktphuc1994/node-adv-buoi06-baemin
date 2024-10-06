@@ -7,11 +7,12 @@ type FoodRequest = {
 };
 
 type Food = {
-  food_id: string;
+  food_id: number;
   name: string;
   price: number;
   description: string | null;
   image: string;
+  stock: number;
   store_id: number;
   tags: string[];
 };

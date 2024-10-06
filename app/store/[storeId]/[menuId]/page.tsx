@@ -1,4 +1,5 @@
 import { foodApi } from '@/api/food';
+import { AddToCartButton } from '@/components/Food/AddToCartButton';
 import { checkIsInteger, formatPrice } from '@/utils/number.utils';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import Input from 'antd/es/input/Input';
@@ -54,9 +55,7 @@ const StoreMenuDetailPage = async ({ params }: Props) => {
                 </span>
               </div>
               <div className='w-[10%] flex justify-center items-center'>
-                <div className='h-6 w-6 rounded-md flex justify-center items-center bg-beamin text-white font-bold cursor-pointer hover:brightness-110 '>
-                  <PlusOutlined />
-                </div>
+                <AddToCartButton foodId={foodInfo.food_id} />
               </div>
             </div>
           ))}

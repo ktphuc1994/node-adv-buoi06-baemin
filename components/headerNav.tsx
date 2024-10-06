@@ -2,14 +2,9 @@
 import { Button, Select } from 'antd';
 import { SearchProps } from 'antd/es/input';
 import Search from 'antd/es/input/Search';
-import { useState } from 'react';
-import {
-  HomeOutlined,
-  SearchOutlined,
-  SolutionOutlined,
-  ShoppingCartOutlined,
-} from '@ant-design/icons';
+import { HomeOutlined, SolutionOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
+import CartButton from './CartButton';
 
 export default function HeaderNav() {
   const router = useRouter();
@@ -73,23 +68,7 @@ export default function HeaderNav() {
         >
           Tài Khoản
         </Button>
-        <Button
-          href='/cart'
-          type='text'
-          style={{
-            fontSize: '20px',
-            width: '40px',
-            height: '100%',
-            color: '#3AC5C9',
-          }}
-          icon={<ShoppingCartOutlined />}
-        ></Button>
-        <span
-          className='text-xs bg-red-600 relative rounded w-full text-white  bottom-3 right-4 text-center'
-          style={{ width: '15px', borderRadius: '50px' }}
-        >
-          1
-        </span>
+        <CartButton />
       </div>
     </div>
   );
