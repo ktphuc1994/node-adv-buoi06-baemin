@@ -1,62 +1,111 @@
-import HeaderNav from '@/components/headerNav';
-import ScrollBar from '@/components/scrollBar';
-import ScrollFood from '@/components/scrollFood';
+'use client';
 import { ShoppingCartOutlined } from '@ant-design/icons';
-import Image from 'next/image';
-import React from 'react';
-import DetailsCart from './detailsCart';
-import { Button } from 'antd';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import Button from 'antd/es/button';
+import useMessage from 'antd/es/message/useMessage';
+import { Cart, SelectedItemsInfo, UpdateCartItemRequest } from '@/types/cart';
+import { cartApi } from '@/api/cart';
+import DetailsCart from './DetailsCart';
+import { CartContext } from './CartContext';
+import Form, { useForm } from 'antd/es/form/Form';
+import { getFoodInputName } from '@/utils/food.utils';
+import CommonLoading from '@/components/CommonLoading';
+import Link from 'next/link';
+import { formatPrice } from '@/utils/number.utils';
 
 export default function Home() {
-  const detail: any = [
-    {
-      name: 'Chicken Gang',
-      quandoitac: true,
-      items: [
-        {
-          namefood: 'Gà rán',
-          img: '/images/Ga.png',
-          description: 'Chiên bột',
-          price: 280000,
-          quantity: 2,
-          totalprice: 280000,
-        },
-        {
-          namefood: 'Gà rán',
-          img: '/images/Ga.png',
-          description: 'Chiên bột',
-          price: 280000,
-          quantity: 2,
-          totalprice: 280000,
-        },
-      ],
+  const [cartDetails, setCartDetails] = useState<Cart[]>();
+  const [isCartLoading, setIsCartLoading] = useState(true);
+  const [isCartUpdating, setIsCartUpdating] = useState(false);
+  const [selectedFoodInfo, setSelectedFoodInfo] = useState<SelectedItemsInfo>();
+  const [messageApi, contextHolder] = useMessage();
+  const [form] = useForm();
+
+  const totalFoodsInfo = useMemo(() => {
+    if (!selectedFoodInfo || selectedFoodInfo.foodIds.length === 0)
+      return { totalItem: 0, total: 0, params: '' };
+
+    const storeInfo = cartDetails?.find(
+      (store) => store.store_id === selectedFoodInfo?.storeId
+    );
+    if (!storeInfo) return { totalItem: 0, total: 0, params: '' };
+
+    let total: number = 0;
+    storeInfo.food.forEach((foodInfo) => {
+      if (!selectedFoodInfo?.foodIds.includes(foodInfo.food_id)) return;
+      total += foodInfo.quantity * foodInfo.price;
+    });
+
+    return {
+      totalItem: selectedFoodInfo.foodIds.length,
+      total,
+      params: selectedFoodInfo.foodIds.join(','),
+    };
+  }, [selectedFoodInfo, cartDetails]);
+
+  const retrieveCartInfo = useCallback(async () => {
+    try {
+      return await cartApi.getCartInfo();
+    } catch (error: any) {
+      messageApi.error(
+        error.message ?? 'Unable to retrieve cart, please try again.'
+      );
+    } finally {
+      setIsCartLoading(false);
+      setIsCartUpdating(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const getCartDetail = async () => {
+      const newCartDetails = await retrieveCartInfo();
+      setCartDetails(newCartDetails);
+    };
+    getCartDetail();
+  }, []);
+
+  const onSelectFoods = (itemInfo: SelectedItemsInfo) => {
+    setSelectedFoodInfo(itemInfo);
+  };
+
+  const updateCart = useCallback(async () => {
+    setIsCartUpdating(true);
+    const newCartDetails = await retrieveCartInfo();
+    const foodList: Record<string, number> = {};
+    newCartDetails?.forEach((storeInfo) => {
+      storeInfo.food.forEach(({ food_id, quantity }) => {
+        const quantityName = getFoodInputName.quantity(food_id);
+        foodList[quantityName] = quantity;
+      });
+    });
+    form.setFieldsValue(foodList);
+    setCartDetails(newCartDetails);
+    setIsCartUpdating(false);
+  }, [retrieveCartInfo]);
+
+  const deleteCartItem = useCallback(
+    async (foodId: number) => {
+      setIsCartUpdating(true);
+      try {
+        await cartApi.deleteItem(foodId);
+        const newCartDetails = await retrieveCartInfo();
+        setCartDetails(newCartDetails);
+      } catch (error: any) {
+        messageApi.error(
+          error.message ?? 'Unable to delete cart item, please try again.'
+        );
+      } finally {
+        setIsCartUpdating(false);
+      }
     },
-    {
-      name: 'Chicken Gang',
-      quandoitac: true,
-      items: [
-        {
-          namefood: 'Gà rán',
-          img: '/images/Ga.png',
-          description: 'Chiên bột',
-          price: 280000,
-          quantity: 2,
-          totalprice: 280000,
-        },
-        {
-          namefood: 'Gà rán',
-          img: '/images/Ga.png',
-          description: 'Chiên bột',
-          price: 280000,
-          quantity: 2,
-          totalprice: 280000,
-        },
-      ],
-    },
-  ];
+    [retrieveCartInfo]
+  );
+
   return (
     <>
-      <div className='flex flex-row w-full h-20 bg-white '>
+      {contextHolder}
+      <CommonLoading title='Updating cart...' isLoading={isCartUpdating} />
+      <div className='flex flex-row w-full h-20 bg-white'>
         <div className='w-1/2 h-full flex flex-row  items-center gap-3'>
           <div className='ml-10 text-4xl  text-beamin font-bold'>
             <ShoppingCartOutlined />
@@ -69,12 +118,6 @@ export default function Home() {
       <div className='mt-4 px-16 flex flex-col gap-4  pb-16 rounded-md'>
         <div className=' w-full h-16  bg-white  grid grid-cols-12'>
           <div className='pl-8  col-span-4 flex items-center flex-row gap-5'>
-            <input
-              id='default-checkbox'
-              type='checkbox'
-              value=''
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded   dark:ring-offset-gray-800 '
-            />
             <span className='text-base font-normal'> Món Ăn</span>
           </div>
           <div className='col-span-2 flex items-center justify-center flex-row gap-3'>
@@ -98,24 +141,51 @@ export default function Home() {
             </span>
           </div>
         </div>
-        <DetailsCart Details={detail} />
-        <div className=' flex flex-row fixed bottom-0  w-[90.6%]  mr-16  h-16 bg-white items-center  '>
-          <div className='flex flex-row gap-2 w-1/2 h-full items-center ml-10'>
-            <div className='cursor-pointer hover:text-red-600 '>Hủy</div>
-            <div> Quán Đã chọn: </div>
-            <div> The Chicken Gang</div>
-          </div>
-          <div className='flex flex-row gap-2 w-1/2 h-full items-center justify-end pr-2'>
-            <div className=''> Tổng thanh toán (0 Sản phẩm):</div>
-            <div className='text-red-600'>₫0 </div>
-            <div>
-              <Button
-                href='/checkout'
-                style={{ background: '#3AC5C9', color: 'white' }}
-                className='bg-beamin text-white w-40 h-10 rounded-md hover:brightness-105'
-              >
-                Thanh toán
-              </Button>
+        <CartContext.Provider value={{ updateCart, deleteCartItem }}>
+          <Form form={form}>
+            <DetailsCart
+              details={cartDetails}
+              isLoading={isCartLoading}
+              onSelectItems={onSelectFoods}
+            />
+          </Form>
+        </CartContext.Provider>
+        <div className='w-full px-16 fixed bottom-0 left-0'>
+          <div className='w-full py-4 px-2 flex flex-row items-center bg-white'>
+            <div className='flex flex-row gap-2 w-1/2 h-full items-center'>
+              {selectedFoodInfo?.storeName ? (
+                <>
+                  <Button variant='filled' color='danger'>
+                    Hủy
+                  </Button>
+                  <div> Quán Đã chọn: </div>
+                  <div>{selectedFoodInfo.storeName}</div>
+                </>
+              ) : null}
+            </div>
+            <div className='flex flex-row gap-2 w-1/2 h-full items-center justify-end'>
+              <div className=''>
+                {' '}
+                Tổng thanh toán ({totalFoodsInfo.totalItem} Sản phẩm):
+              </div>
+              <div className='text-red-600'>
+                {formatPrice(totalFoodsInfo.total)}
+              </div>
+              <div>
+                <Link
+                  href={`/checkout?storeId=${selectedFoodInfo?.storeId}&foodIds=${totalFoodsInfo.params}`}
+                >
+                  <Button
+                    disabled={
+                      !selectedFoodInfo ||
+                      selectedFoodInfo?.foodIds.length === 0
+                    }
+                    type='primary'
+                  >
+                    Thanh toán
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

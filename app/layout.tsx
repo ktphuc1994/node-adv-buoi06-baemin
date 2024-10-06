@@ -1,12 +1,9 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import HeaderNav from '@/components/headerNav';
-import FooterNav from '@/components/footerNav';
-
-const inter = Inter({ subsets: ['latin'] });
+import AntDesignProvider from '@/providers/AntDesignProvider';
 
 export const metadata: Metadata = {
   title: 'Baemin',
@@ -21,8 +18,12 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className='w-full h-fit'>
-        <HeaderNav />
-        <AntdRegistry>{children}</AntdRegistry>
+        <AntdRegistry>
+          <AntDesignProvider>
+            <HeaderNav />
+            {children}
+          </AntDesignProvider>
+        </AntdRegistry>
       </body>
     </html>
   );

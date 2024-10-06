@@ -55,7 +55,7 @@ export default function ScrollBar({ title, items }: Props) {
             >
               {items.map((item, index) => (
                 <Link
-                  href={`/detailfood/${item.food_id}`}
+                  href={`/store/${item.store_id}`}
                   key={`scroll-food-item-${index}`}
                   className=' group w-48 h-full cursor-pointer '
                 >

@@ -1,8 +1,5 @@
-import HeaderNav from '@/components/headerNav';
-import Image from 'next/image';
-import Layout from './layout';
-import FooterNav from '@/components/footerNav';
+import { redirect, RedirectType } from 'next/navigation';
 
 export default function Home() {
-  return <></>;
+  redirect('/dashboard', RedirectType.replace);
 }
