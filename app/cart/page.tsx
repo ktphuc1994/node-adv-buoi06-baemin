@@ -3,15 +3,15 @@ import { ShoppingCartOutlined } from '@ant-design/icons';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Button from 'antd/es/button';
 import useMessage from 'antd/es/message/useMessage';
-import { Cart, SelectedItemsInfo, UpdateCartItemRequest } from '@/types/cart';
+import { Cart, SelectedItemsInfo } from '@/types/cart';
 import { cartApi } from '@/api/cart';
-import DetailsCart from './DetailsCart';
 import { CartContext } from './CartContext';
 import Form, { useForm } from 'antd/es/form/Form';
 import { getFoodInputName } from '@/utils/food.utils';
 import CommonLoading from '@/components/CommonLoading';
 import Link from 'next/link';
 import { formatPrice } from '@/utils/number.utils';
+import DetailsCart from './DetailsCart';
 
 export default function Home() {
   const [cartDetails, setCartDetails] = useState<Cart[]>();

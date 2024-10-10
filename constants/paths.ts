@@ -5,6 +5,8 @@ const PATH_FOOD = '/food';
 const PATH_BANNER = '/banner';
 const PATH_STORE = '/store';
 const PATH_CART = '/cart';
+const PATH_ORDER = '/order';
+const PATH_USER = '/user';
 
 export {
   APP_API_URL,
@@ -14,4 +16,6 @@ export {
   PATH_BANNER,
   PATH_STORE,
   PATH_CART,
+  PATH_ORDER,
+  PATH_USER,
 };

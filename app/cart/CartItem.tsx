@@ -8,7 +8,7 @@ import { CartContext } from './CartContext';
 import { getFoodInputName } from '@/utils/food.utils';
 import InputNumber from 'antd/es/input-number';
 import { cartApi } from '@/api/cart';
-import Button from 'antd/es/button/Button';
+import Button from 'antd/es/button';
 
 type Props = {
   cartRowIndex: number;
