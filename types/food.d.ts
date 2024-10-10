@@ -11,7 +11,7 @@ type Food = {
   name: string;
   price: number;
   description: string | null;
-  image: string;
+  image: string | null;
   stock: number;
   store_id: number;
   tags: string[];

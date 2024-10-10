@@ -32,7 +32,7 @@ const StoreMenuDetailPage = async ({ params }: Props) => {
             <div className='flex flex-row' key={`food-key-${foodInfo.food_id}`}>
               <div className='w-[15%] relative h-16'>
                 <Image
-                  src={foodInfo.image}
+                  src={foodInfo.image ?? ''}
                   alt={foodInfo.name}
                   fill
                   sizes='100vw'

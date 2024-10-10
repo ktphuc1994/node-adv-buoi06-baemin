@@ -69,7 +69,7 @@ export default function ScrollBar({ title, items }: Props) {
                       }}
                     >
                       <Image
-                        src={item.image}
+                        src={item.image ?? ''}
                         alt={item.name}
                         fill
                         sizes='100vw'

@@ -19,4 +19,16 @@ type Store = {
   };
 };
 
-export { Store };
+type ShippingMethod = {
+  method_id: number;
+  shipping_name: string;
+  shipping_price: number;
+  shipping_time: string;
+};
+
+type Voucher = {
+  voucher_id: number;
+  percentage: string; // number - decimal
+};
+
+export { Store, ShippingMethod, Voucher };
