@@ -1,6 +1,6 @@
 import { Cart, UpdateCartItemRequest } from '@/types/cart';
-import { clientFetch } from '.';
-import { APP_API_URL, PATH_CART } from '@/constants/paths';
+import { CLIENT_API_URL, PATH_CART } from '@/constants/paths';
+import { clientFetch } from './clientFetch';
 
 type CartApi = {
   getTotalItems: () => Promise<number>;
@@ -15,28 +15,28 @@ type CartApi = {
 
 const cartApi: CartApi = {
   getTotalItems: async () => {
-    const response = await clientFetch(`${APP_API_URL}${PATH_CART}/total`);
+    const response = await clientFetch(`${CLIENT_API_URL}${PATH_CART}/total`);
     return await response.json();
   },
   getCartInfo: async () => {
-    const response = await clientFetch(`${APP_API_URL}${PATH_CART}`);
+    const response = await clientFetch(`${CLIENT_API_URL}${PATH_CART}`);
     return await response.json();
   },
   addToCart: async (foodId) => {
-    return await clientFetch(`${APP_API_URL}${PATH_CART}/add`, {
+    return await clientFetch(`${CLIENT_API_URL}${PATH_CART}/add`, {
       method: 'POST',
       body: JSON.stringify({ food_id: foodId }),
     });
   },
   updateItem: async (foodInfo, signal) => {
-    return await clientFetch(`${APP_API_URL}${PATH_CART}/update`, {
+    return await clientFetch(`${CLIENT_API_URL}${PATH_CART}/update`, {
       method: 'PUT',
       body: JSON.stringify(foodInfo),
       signal,
     });
   },
   deleteItem: async (foodId: number) => {
-    return await clientFetch(`${APP_API_URL}${PATH_CART}/remove/${foodId}`, {
+    return await clientFetch(`${CLIENT_API_URL}${PATH_CART}/remove/${foodId}`, {
       method: 'DELETE',
     });
   },
