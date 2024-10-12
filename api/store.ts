@@ -1,6 +1,6 @@
-import { serverFetch } from '.';
-import { APP_API_URL, PATH_STORE } from '@/constants/paths';
+import { SERVER_API_URL, PATH_STORE } from '@/constants/paths';
 import { Store } from '@/types/store';
+import { serverFetch } from './serverFetch';
 
 type StoreApi = {
   getStoreById: (storeId: number) => Promise<Store>;
@@ -9,7 +9,7 @@ type StoreApi = {
 const storeApi: StoreApi = {
   getStoreById: async (storeId) => {
     const response = await serverFetch(
-      `${APP_API_URL}${PATH_STORE}/${storeId}`
+      `${SERVER_API_URL}${PATH_STORE}/${storeId}`
     );
     return await response.json();
   },

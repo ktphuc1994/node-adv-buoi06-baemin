@@ -1,4 +1,5 @@
-const APP_API_URL = process.env.NEXT_PUBLIC_APP_API_URL;
+const CLIENT_API_URL = process.env.NEXT_PUBLIC_CLIENT_API_URL;
+const SERVER_API_URL = process.env.SERVER_API_URL;
 const PATH_AUTH = '/auth';
 const PATH_MENU = '/menu';
 const PATH_FOOD = '/food';
@@ -9,7 +10,8 @@ const PATH_ORDER = '/order';
 const PATH_USER = '/user';
 
 export {
-  APP_API_URL,
+  CLIENT_API_URL,
+  SERVER_API_URL,
   PATH_AUTH,
   PATH_MENU,
   PATH_FOOD,

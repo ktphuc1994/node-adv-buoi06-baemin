@@ -3,15 +3,29 @@ import { foodApi } from '@/api/food';
 import { menuApi } from '@/api/menu';
 import ScrollBar from '@/components/scrollBar';
 import ScrollFood from '@/components/scrollFood';
+import { Banner } from '@/types/banner';
+import { TodayFood } from '@/types/food';
+import { Menu } from '@/types/menu';
 import Image from 'next/image';
 import React from 'react';
 
+export const revalidate = 60;
+
 const Homepage = async () => {
-  const [menuItems, bannerItems, todayFoodItems] = await Promise.all([
-    menuApi.getMenuList(),
-    bannerApi.getAllBanner(),
-    foodApi.getTodayFood(),
-  ]);
+  let menuItems: Menu[] = [];
+  let bannerItems: Banner[] = [];
+  let todayFoodItems: TodayFood[] = [];
+
+  if (process.env.BUILD_ENVIRONMENT !== 'local') {
+    const pageInfo = await Promise.all([
+      menuApi.getMenuList(),
+      bannerApi.getAllBanner(),
+      foodApi.getTodayFood(),
+    ]);
+    menuItems = pageInfo[0];
+    bannerItems = pageInfo[1];
+    todayFoodItems = pageInfo[2];
+  }
 
   const TodayFood = {
     title: 'Hôm Nay ăn gì',

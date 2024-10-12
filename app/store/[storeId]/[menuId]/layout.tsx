@@ -57,7 +57,7 @@ const DetailFoodLayout = async ({ children, params }: Props) => {
                 <span className='text-[#959595]'>
                   QUÁN ĂN -{' '}
                   <a href='' className='text-[#0288D1]'>
-                    Chi nhánh
+                    {storeInfo.name}
                   </a>
                 </span>
               </div>

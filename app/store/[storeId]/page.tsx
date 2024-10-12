@@ -15,6 +15,7 @@ const StoreDetailLayout = async ({ params }: Props) => {
   try {
     storeInfo = await storeApi.getStoreById(Number(storeId));
   } catch (error) {
+    console.error(error);
     return <div className='pt-20'>Store not found</div>;
   }
 
